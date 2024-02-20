@@ -1,60 +1,66 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled, { keyframes } from "styled-components"
 
 import { ImgArea } from "./ImgArea";
 
 import { useRecoilValue } from "recoil";
 import { DuplicatesForCheck, NumberSetting, SettingModalCheck } from "state/atoms";
-// import { CnnonAnimation } from "styles/Animation";
-
-
-
+import  Effect from "assets/sound/eff.flac"
 
 export const Main = () => {
+    // 대포 횟수 
+    const [cannonCount, setCannonCount] = useState(0);
 
+
+    // 홀수 대포
     const [circleVisibility, setCircleVisibility ] = useState(false);
+    // 짝수 대포
+    const [showNewAnimation, setShowNewAnimation] = useState(false);
 
     const inputNumber = useRecoilValue(NumberSetting);
     const inputCheck = useRecoilValue(DuplicatesForCheck);
     const modalCheck = useRecoilValue(SettingModalCheck);
 
-    // useEffect(()=>{
-    //     if(!modalCheck){
-    //         setCircleVisibility(false)
-    //     }
-    // },[modalCheck])
+    console.log(inputNumber, inputCheck, modalCheck);
 
-    console.log(inputNumber, inputCheck, modalCheck)
+    
 
-    const onClickcannon = () => {
-        setCircleVisibility(true)
-    }
+  
 
-
-    useEffect(() => {
-        if (circleVisibility ) {
-            // 애니메이션 종료 후 circleVisibility를 false로 변경
-            const timeoutId = setTimeout(() => {
-                setCircleVisibility(false);
-            }, 1800); // 애니메이션 지속시간인 1.8초(ms)와 동일하게 설정
-          
-            // 컴포넌트가 언마운트되면 타임아웃 클리어
-            return () => clearTimeout(timeoutId);
+    const onClickCannon = () => {
+        setCannonCount(cannonCount + 1);
+        if(cannonCount % 2 === 1){
+            console.log("짝수")
+            setCircleVisibility(false);
+            setShowNewAnimation(true);
+        }else{
+            console.log("홀수")
+            setCircleVisibility(true);
+            setShowNewAnimation(false);
         }
-    }, [circleVisibility]);
-
+    }
 
   return (
     <View>
-        {
-            circleVisibility && <Circle>
-            <p>NaN</p> 
-         </Circle>
-        }
+          
+            {circleVisibility && <Circle>
+                <p>홀수</p> 
+                <audio autoPlay>
+                <source src={Effect} type="audio/flac" />
+                </audio>
+            </Circle>}
+       
+
+            {showNewAnimation && <Circle>
+                <p>짝수</p>
+                <audio autoPlay>
+                <source src={Effect} type="audio/flac" />
+                </audio>
+            </Circle>}
      
         <ImgArea/>
         
-        <Button onClick={(()=>{onClickcannon()})}>발싸</Button>
+        <Button onClick={(()=>{onClickCannon()})}>발싸</Button>
     </View>
   )
 }
@@ -72,26 +78,6 @@ const CnnonAnimationKeyframes = keyframes`
   100% { transform: translateY(-400px); }
 `;
 
-// const Circle = styled.div<{circlevisibility: string}>`
-//      position: absolute;
-//     top: 90%;
-//     left: 50%;
-//     transform: translateY(-90%) translateX(-50%);
-//     width: 100px;
-//     height: 100px;
-//     z-index: 12;
-//     border-radius: 50%;
-//     background: red;
-//     transition: 1.8 ease-in-out;
-//     animation: ${(props) => (props.circlevisibility === "true" ? ` ${CnnonAnimationKeyframes} 1.8s forwards` : 'null')};
-//     ${({theme}) => theme.BoxCenter};
-//     p {
-//         color: ${({theme}) => theme.colors.white};
-//         font-size: 18px;
-//         font-weight: 700;
-//     }
-// `; 
-
 const Circle = styled.div`
     position: absolute;
     top: 80%;
@@ -103,15 +89,13 @@ const Circle = styled.div`
     z-index: 10;
     border-radius: 50%;
     background: ${({theme}) => theme.colors.greey};
-    animation: ${CnnonAnimationKeyframes} 1.8s forwards;
+    animation: ${CnnonAnimationKeyframes} 1.3s forwards;
     p {
         color: ${({theme}) => theme.colors.white};
         font-size: 18px;
         font-weight: 700;
     }
 `;
-
-
 
 
 
