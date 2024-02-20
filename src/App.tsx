@@ -6,14 +6,19 @@ import { Theme } from "styles/theme";
 import styled from "styled-components";
 
 import { Main } from "components/Main";
+import { SettingModal } from "components/SettingModal";
+
+
 
 export const App = () => {
-  const theme =  Theme ;
+  const theme =  Theme;
+
   return (
     <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Reset />
     <Bg>
+      <SettingModal/>
       <Main/>
     </Bg>
   </ThemeProvider>
@@ -25,4 +30,5 @@ const Bg = styled.div`
   height: 100vh;
   ${({theme}) => theme.BoxCenter};
   background-color: ${({theme}) => theme.colors.gray1};;
+
 `;

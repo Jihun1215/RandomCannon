@@ -4,7 +4,7 @@ export const Beforenumber = () => {
   return (
     <Aside>
     여기의 최근 나온 번호 적기
-</Aside>
+    </Aside>
   )
 }
 
