@@ -32,13 +32,15 @@ const Cannon = styled.img`
 const Lhill= styled.img`
     position: absolute;
     bottom: -10px;
-    left: -10px;
+    left: 0;
+    width: 100%;
     height: 30%;
 `;
 
 const Rhill = styled.img`
     position: absolute;
     bottom: -10px;
-    right: -10px;
+    right: 0;
+    width: 90%;
     height: 30%;
 `;

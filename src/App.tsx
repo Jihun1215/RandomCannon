@@ -28,9 +28,10 @@ export const App = () => {
 }
 
 const Bg = styled.div`
+  position: relative;
   width: 100vw;
   height: 100vh;
   ${({theme}) => theme.BoxCenter};
-  background-color: ${({theme}) => theme.colors.gray1};;
+  background-color: ${({theme}) => theme.colors.gray1};
 
 `;

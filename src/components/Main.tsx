@@ -24,8 +24,6 @@ export const Main = () => {
     const inputCheck = useRecoilValue(DuplicatesForCheck);
     const modalCheck = useRecoilValue(SettingModalCheck);
 
-    console.log(inputCheck);
-
     // 현재 보여줄 숫자
     const [thisNumber, setThisNumber] = useState(0)
     // 지금까지 나온 숫자를 담을 State
@@ -35,8 +33,8 @@ export const Main = () => {
 
 
     useEffect(()=>{
-        console.log("지정한 수", (Number(inputNumber)));
-        console.log("대포카운터",cannonCount);
+        // console.log("지정한 수", (Number(inputNumber)));
+        // console.log("대포카운터",cannonCount);
         if(!inputCheck && !modalCheck && Number(inputNumber) <= cannonCount){
             const timeoutId = setTimeout(() => {
                 console.log("시마이");
