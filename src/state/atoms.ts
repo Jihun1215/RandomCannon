@@ -18,3 +18,10 @@ export const DuplicatesForCheck = atom<boolean>({
     default: true,
 });
   
+
+// 숫자 중복 여부 체크
+export const NumberArr = atom<number[]>({
+    key: "NumberArr",
+    default: [],
+});
+  

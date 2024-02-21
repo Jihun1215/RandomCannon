@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components"
 
 import { ImgArea } from "./ImgArea";
 
-import { useRecoilValue } from "recoil";
-import { DuplicatesForCheck, NumberSetting, SettingModalCheck } from "state/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { DuplicatesForCheck, NumberSetting, SettingModalCheck , NumberArr} from "state/atoms";
 import  Effect from "assets/sound/eff.flac"
 
 export const Main = () => {
     // 대포 횟수 
     const [cannonCount, setCannonCount] = useState(0);
+
+    const [finishCheck, setFinishCheck] = useState(false);
+
 
 
     // 홀수 대포
@@ -21,46 +24,85 @@ export const Main = () => {
     const inputCheck = useRecoilValue(DuplicatesForCheck);
     const modalCheck = useRecoilValue(SettingModalCheck);
 
-    console.log(inputNumber, inputCheck, modalCheck);
+    // console.log(inputNumber, inputCheck, modalCheck);
 
-    
+    // 현재 보여줄 숫자
+    const [thisNumber, setThisNumber] = useState(0)
+    // 지금까지 나온 숫자를 담을 State
+    const [thisNumberArr, setThisNumberArr] = useRecoilState<number[]>(NumberArr);
 
-  
+    // console.log(thisNumberArr.length);
 
-    const onClickCannon = () => {
-        setCannonCount(cannonCount + 1);
-        if(cannonCount % 2 === 1){
-            console.log("짝수")
-            setCircleVisibility(false);
-            setShowNewAnimation(true);
-        }else{
-            console.log("홀수")
-            setCircleVisibility(true);
-            setShowNewAnimation(false);
+
+    useEffect(()=>{
+        console.log("지정한 수", (Number(inputNumber)));
+        console.log("대포카운터",cannonCount);
+        if(!modalCheck && Number(inputNumber) <= cannonCount){
+            console.log("시마이")
+            setFinishCheck(true)
         }
+    },[cannonCount])
+   
+    const generateRandomNumber = (max: number) => {
+        return Math.floor(Math.random() * max) + 1;
+    };
+
+
+    const onClickCannon = (): void => {
+        if(!finishCheck){
+            setCannonCount(cannonCount + 1);
+            let randomNumber: number;
+            if (inputCheck) {
+                // 중복 허용된 상태에서 무작위 숫자 생성
+                randomNumber = generateRandomNumber(Number(inputNumber));
+            } else {
+                // 중복 없이 무작위 숫자 생성
+                do {
+                    randomNumber = generateRandomNumber(Number(inputNumber));
+                } while (thisNumberArr.includes(randomNumber));
+            }
+    
+            setThisNumber(randomNumber);
+            setThisNumberArr([...thisNumberArr, randomNumber]);
+    
+    
+    
+            if(cannonCount % 2 === 1){
+                // console.log("짝수")
+                setCircleVisibility(false);
+                setShowNewAnimation(true);
+            }else{
+                // console.log("홀수")
+                setCircleVisibility(true);
+                setShowNewAnimation(false);
+            }
+        }else alert("시마이")
+     
     }
 
   return (
     <View>
           
-            {circleVisibility && <Circle>
-                <p>홀수</p> 
+            {!finishCheck && circleVisibility && <Circle>
+                <p>{thisNumber}</p> 
                 <audio autoPlay>
                 <source src={Effect} type="audio/flac" />
                 </audio>
             </Circle>}
        
 
-            {showNewAnimation && <Circle>
-                <p>짝수</p>
+            {!finishCheck && showNewAnimation && <Circle>
+                <p>{thisNumber}</p>
                 <audio autoPlay>
                 <source src={Effect} type="audio/flac" />
                 </audio>
             </Circle>}
      
         <ImgArea/>
-        
-        <Button onClick={(()=>{onClickCannon()})}>발싸</Button>
+        {
+            !finishCheck ?  <Button onClick={(()=>{onClickCannon()})}>발싸</Button> : <Button>끝</Button>
+        }
+       
     </View>
   )
 }
@@ -70,6 +112,7 @@ const View = styled.main`
     width: 90%;
     height: 90%;
     background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(81,124,211,1) 100%);
+    border-radius: 8px;
 `;
 
 
@@ -92,12 +135,10 @@ const Circle = styled.div`
     animation: ${CnnonAnimationKeyframes} 1.3s forwards;
     p {
         color: ${({theme}) => theme.colors.white};
-        font-size: 18px;
+        font-size: 30px;
         font-weight: 700;
     }
 `;
-
-
 
 const Button = styled.button`
     position: absolute;

@@ -35,9 +35,14 @@ export const SettingModal = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setNumber(inputValue)
-    setCheckinput(isCheckboxChecked)
-    setModalOpen(false)
+    if(Number(inputValue) > 2){
+      setNumber(inputValue)
+      setCheckinput(isCheckboxChecked)
+      setModalOpen(false)
+    }else{
+      setInputNumCheck(false)
+    }
+
   };
 
 
@@ -64,7 +69,7 @@ export const SettingModal = () => {
                placeholder="2-1000 사이로만 입력"
                required/>
                {
-                !inputNumCheck && <span>숫자만 입력하셈</span>
+                !inputNumCheck && <span>숫자 3이상으로 적어주세요.</span>
                }
           </div>
       
@@ -141,12 +146,13 @@ const Area = styled.div`
     position: relative;
     span{
       position: absolute;
-      width: 120px;
+      width: 180px;
       bottom: -20px;
-      left: 50%;
+      left: 60%;
       transform: translateX(-50%);
       color: ${({theme}) => theme.colors.red};;
       font-weight: 600;
+      font-size: 14px;
     }
   }
 `;
@@ -169,7 +175,7 @@ const InputCheckBox = styled.input`
   border: 2px solid gray;
   border-radius: 100%;
 	cursor: pointer;
-    transition: .2s;
+  transition: .2s;
 `;
 
 const Button = styled.button`

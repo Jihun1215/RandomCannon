@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import { Main } from "components/Main";
 import { SettingModal } from "components/SettingModal";
+import { Beforenumber } from "components/Beforenumber";
 
 
 
@@ -20,6 +21,7 @@ export const App = () => {
     <Bg>
       <SettingModal/>
       <Main/>
+      <Beforenumber/>
     </Bg>
   </ThemeProvider>
   )
