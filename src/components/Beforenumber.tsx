@@ -12,7 +12,7 @@ export const Beforenumber = () => {
           <h3>최근 나온 번호</h3>
         </Text>
         {thisNumberArr && thisNumberArr.map((number, index) => {
-          return <Item key={index}><p>{index + 1}번: </p>
+          return <Item key={index}><p>[{index + 1}]</p>
           <span> {number}번</span></Item>
         })}
       </Card>

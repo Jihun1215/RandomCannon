@@ -112,8 +112,8 @@ export const Main = () => {
 
 const View = styled.main`
     position: relative;
-    width: 90%;
-    height: 90%;
+    width: 85%;
+    height: 85%;
     background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(81,124,211,1) 100%);
     border-radius: 8px;
 `;
@@ -129,7 +129,7 @@ const Circle = styled.div`
     top: 80%;
     left: 47%;
     ${({theme}) => theme.BoxCenter};
-    transform: translateY(-90%) translateX(-50%);
+    transform: translateX(-50%);
     width: 120px;
     height: 120px;
     z-index: 10;
