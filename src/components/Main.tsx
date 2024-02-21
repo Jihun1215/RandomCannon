@@ -24,23 +24,28 @@ export const Main = () => {
     const inputCheck = useRecoilValue(DuplicatesForCheck);
     const modalCheck = useRecoilValue(SettingModalCheck);
 
-    // console.log(inputNumber, inputCheck, modalCheck);
+    console.log(inputCheck);
 
     // 현재 보여줄 숫자
     const [thisNumber, setThisNumber] = useState(0)
     // 지금까지 나온 숫자를 담을 State
     const [thisNumberArr, setThisNumberArr] = useRecoilState<number[]>(NumberArr);
 
-    // console.log(thisNumberArr.length);
+
 
 
     useEffect(()=>{
         console.log("지정한 수", (Number(inputNumber)));
         console.log("대포카운터",cannonCount);
-        if(!modalCheck && Number(inputNumber) <= cannonCount){
-            console.log("시마이")
-            setFinishCheck(true)
-        }
+        if(!inputCheck && !modalCheck && Number(inputNumber) <= cannonCount){
+            const timeoutId = setTimeout(() => {
+                console.log("시마이");
+                setFinishCheck(true);
+              }, 1000);
+          
+              // Clean-up 함수: 컴포넌트가 언마운트되거나 의존성 배열이 변경될 때 clearTimeout 호출
+              return () => clearTimeout(timeoutId);
+      }
     },[cannonCount])
    
     const generateRandomNumber = (max: number) => {
