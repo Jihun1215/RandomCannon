@@ -103,7 +103,7 @@ export const Main = () => {
      
         <ImgArea/>
         {
-            !finishCheck ?  <Button onClick={(()=>{onClickCannon()})}>발싸</Button> : <Button>끝</Button>
+            !finishCheck ?  <Button onClick={(()=>{onClickCannon()})}>발사</Button> : <Button>끝</Button>
         }
        
     </View>
